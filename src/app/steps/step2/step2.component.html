@@ -1,0 +1,23 @@
+<h1>Step2 : Select your config and options</h1>
+
+<div>
+  <select id="configSelect" [(ngModel)]="teslaService.selectedConfig">
+    <option [ngValue]="undefined" selected>Choose Config</option>
+    <option *ngFor="let config of configs" [ngValue]="config">{{ config.description }}</option>
+  </select>
+  <div *ngIf="teslaService.selectedConfig">
+    <p>Range: {{ teslaService.selectedConfig.range }} - Max Speed: {{ teslaService.selectedConfig.speed }} - Cost: {{ teslaService.selectedConfig.price | currency }}</p>
+  </div>
+  <div *ngIf="includeYoke">
+    <input type="checkbox" id="includeYoke" [(ngModel)]="teslaService.includeYoke">
+    <label for="includeYoke">Include Yoke Steering Wheel</label>
+  </div>
+  <div *ngIf="includeTow">
+    <input type="checkbox" id="includeTow" [(ngModel)]="teslaService.includeTow">
+    <label for="includeTow">Include Tow Hitch Package</label>
+  </div>
+</div>
+
+
+
+
