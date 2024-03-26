@@ -13,9 +13,5 @@ export class Step3Component {
 constructor(public teslaService: TeslaService) { }
 
   ngOnInit(): void {
-   console.log(this.teslaService);
-
   }
-
-
 }
