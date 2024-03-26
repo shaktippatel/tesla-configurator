@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Tesla } from '../models/tesla.model';
 import { Color } from '../models/color.model';
 import { Config } from '../models/config.model';
+import { Options } from '../models/options.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class TeslaService {
     return this.http.get<Tesla[]>(`${this.baseUrl}/models`);
   }
 
-  getOptions(modelCode: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/options/${modelCode}`);
+  getOptions(modelCode: string): Observable<Options> {
+    return this.http.get<Options>(`${this.baseUrl}/options/${modelCode}`);
   }
 }

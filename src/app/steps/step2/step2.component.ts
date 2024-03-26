@@ -6,6 +6,7 @@ import { Tesla } from '../../models/tesla.model';
 import { Color } from '../../models/color.model';
 import { Config } from '../../models/config.model';
 import { Subscription } from 'rxjs';
+import { Options } from '../../models/options.model';
 
 @Component({
   selector: 'app-step2',
@@ -27,7 +28,7 @@ export class Step2Component {
   constructor(public teslaService: TeslaService) { }
 
   ngOnInit(): void {
-    this.modelSubscription = this.teslaService.getOptions(this.teslaService.selectedModel.code).subscribe(data => {
+    this.modelSubscription = this.teslaService.getOptions(this.teslaService.selectedModel.code).subscribe((data: Options)  => {
       this.configs = data.configs;
       this.includeYoke = data.yoke;
       this.includeTow = data.towHitch;

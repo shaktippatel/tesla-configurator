@@ -22,7 +22,7 @@ export class Step1Component {
   constructor(public teslaService: TeslaService) { }
 
   ngOnInit(): void {
-    this.modelSubscription = this.teslaService.getModels().subscribe(data => {
+    this.modelSubscription = this.teslaService.getModels().subscribe((data: Tesla[]) => {
       this.models = data;
       this.getSelectedModelColors();
     });
