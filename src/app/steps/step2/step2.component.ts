@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Tesla } from '../../models/tesla.model';
 import { Color } from '../../models/color.model';
 import { Config } from '../../models/config.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-step2',
@@ -17,6 +18,8 @@ export class Step2Component {
   models: Tesla[] = [];
   modelColors: Color[] = [];
 
+  private modelSubscription: Subscription | undefined;
+
   configs: Config[] = [];
   includeYoke: boolean = false;
   includeTow: boolean = false;
@@ -24,7 +27,7 @@ export class Step2Component {
   constructor(public teslaService: TeslaService) { }
 
   ngOnInit(): void {
-    this.teslaService.getOptions(this.teslaService.selectedModel.code).subscribe(data => {
+    this.modelSubscription = this.teslaService.getOptions(this.teslaService.selectedModel.code).subscribe(data => {
       this.configs = data.configs;
       this.includeYoke = data.yoke;
       this.includeTow = data.towHitch;
@@ -33,8 +36,13 @@ export class Step2Component {
     });
   }
 
+  ngOnDestroy(): void {
+    if (this.modelSubscription) {
+      this.modelSubscription.unsubscribe();
+    }
+  }
+
   getSelectedConfig() {
-debugger;
     const selectedConfig = this.configs.find(config => config.id === this.teslaService.selectedConfig?.id);
 
     if(selectedConfig) {
