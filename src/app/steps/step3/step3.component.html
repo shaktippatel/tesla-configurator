@@ -1,22 +1,22 @@
 <h1>Step3 : Summary</h1>
 <div class="container">
   <div class="row">
-    <div class="col-sm-12"><b>Your Tesla  {{teslaService.selectedModel.description }}</b></div>
+    <div class="col-sm-12"><b>Your Tesla  {{selectedOptions.selectedModel?.description }}</b></div>
   </div>
-  <div class="row" *ngIf="teslaService.selectedConfig">
-    <div class="col-sm-5">{{teslaService.selectedConfig.description }}
-      <p>Range: {{ teslaService.selectedConfig.range }} - Max Speed: {{ teslaService.selectedConfig.speed }}</p></div>
-    <div class="col-sm-7">{{teslaService.selectedConfig.price | currency }}</div>
+  <div class="row" *ngIf="selectedOptions.selectedConfig">
+    <div class="col-sm-5">{{selectedOptions.selectedConfig.description }}
+      <p>Range: {{ selectedOptions.selectedConfig.range }} - Max Speed: {{ selectedOptions.selectedConfig.speed }}</p></div>
+    <div class="col-sm-7">{{selectedOptions.selectedConfig.price | currency }}</div>
   </div>
   <div class="row">
-    <div class="col-sm-5">{{teslaService.selectedColor.description }}</div>
-    <div class="col-sm-7">{{teslaService.selectedColor.price | currency }}</div>
+    <div class="col-sm-5">{{selectedOptions.selectedColor?.description }}</div>
+    <div class="col-sm-7">{{selectedOptions.selectedColor?.price | currency }}</div>
   </div>
-  <div class="row" *ngIf="teslaService.includeTow">
+  <div class="row" *ngIf="selectedOptions.includeTow">
     <div class="col-sm-5">Tow Hitch Package</div>
     <div class="col-sm-7">{{1000 | currency }}</div>
   </div>
-  <div class="row" *ngIf="teslaService.includeYoke">
+  <div class="row" *ngIf="selectedOptions.includeYoke">
     <div class="col-sm-5">Yoke Steering Wheel</div>
     <div class="col-sm-7">{{1000 | currency }}</div>
   </div>
@@ -24,9 +24,9 @@
   <div class="row">
     <hr class="col-sm-12">
   </div>
-  <div class="row" *ngIf="teslaService.selectedConfig">
+  <div class="row" *ngIf="selectedOptions.selectedConfig">
     <div class="col-sm-5">Total Cost</div>
-    <div class="col-sm-7">{{((teslaService.selectedColor.price) + ((teslaService.includeTow === true)?1000:0) + ((teslaService.includeYoke === true)?1000:0) + (teslaService.selectedConfig.price)) | currency }}</div>
+    <div class="col-sm-7">{{((selectedOptions.selectedColor?.price || 0) + ((selectedOptions.includeTow === true)?1000:0) + ((selectedOptions.includeYoke === true)?1000:0) + (selectedOptions.selectedConfig.price)) | currency }}</div>
   </div>
   <div class="row">
     <hr class="col-sm-12">

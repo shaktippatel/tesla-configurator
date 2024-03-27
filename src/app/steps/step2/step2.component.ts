@@ -7,6 +7,7 @@ import { Color } from '../../models/color.model';
 import { Config } from '../../models/config.model';
 import { Subscription } from 'rxjs';
 import { Options } from '../../models/options.model';
+import { TeslaOptions } from '../../models/tesla-options.model';
 
 @Component({
   selector: 'app-step2',
@@ -16,39 +17,51 @@ import { Options } from '../../models/options.model';
   styleUrl: './step2.component.scss'
 })
 export class Step2Component {
-  models: Tesla[] = [];
-  modelColors: Color[] = [];
-
-  private modelSubscription: Subscription | undefined;
-
   configs: Config[] = [];
   includeYoke: boolean = false;
   includeTow: boolean = false;
 
-  constructor(public teslaService: TeslaService) { }
+  private modelSubscription: Subscription | undefined;
 
-  ngOnInit(): void {
-    this.modelSubscription = this.teslaService.getOptions(this.teslaService.selectedModel.code).subscribe((data: Options)  => {
+  selectedOptions!: TeslaOptions;
+  selectedOptionsSubject?: TeslaOptions;
+  selectedOptionsSubscription?: Subscription;
+  selectedConfig?: Config;
+
+  constructor(public teslaService: TeslaService) {
+    this.selectedOptionsSubscription = this.teslaService.selectedOptionsSubject.subscribe(selectedOptions => {
+      this.selectedOptions = selectedOptions;
+      this.getOptions(selectedOptions?.selectedModel?.code);
+    });
+  }
+
+  ngOnInit(): void {}
+
+  private getOptions(modelCode: string = '') {
+    this.modelSubscription = this.modelSubscription = this.teslaService.getOptions(modelCode).subscribe((data: Options) => {
       this.configs = data.configs;
       this.includeYoke = data.yoke;
       this.includeTow = data.towHitch;
 
-      this.getSelectedConfig();
+      this.selectedConfig = this.configs.find(config => config.id === this.selectedOptions.selectedConfig?.id);
     });
   }
 
-  ngOnDestroy(): void {
-    if (this.modelSubscription) {
-      this.modelSubscription.unsubscribe();
-    }
+  setConfig(selectedConfig?: Config) {
+    this.teslaService.setConfig(selectedConfig);
   }
 
-  getSelectedConfig() {
-    const selectedConfig = this.configs.find(config => config.id === this.teslaService.selectedConfig?.id);
+  setIncludeTow(includeTow: boolean = false) {
+    this.teslaService.setIncludeTow(includeTow);
+  }
 
-    if(selectedConfig) {
-      this.teslaService.selectedConfig = selectedConfig;
-    }
+  setIncludeYoke(includeYoke: boolean = false) {
+    this.teslaService.setIncludeYoke(includeYoke);
+  }
+
+  ngOnDestroy(): void {
+    this.modelSubscription?.unsubscribe();
+    this.selectedOptionsSubscription?.unsubscribe();
   }
 
 }

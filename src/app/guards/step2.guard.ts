@@ -6,7 +6,7 @@ export const step2Guard: CanActivateFn = (route, state) => {
   const teslaService = inject(TeslaService);
   const router = inject(Router);
 
-  if (teslaService.selectedModel === undefined) {
+  if (teslaService.selectedOptions.selectedModel === undefined) {
     router.navigate(['/step1']);
     return false;
   }

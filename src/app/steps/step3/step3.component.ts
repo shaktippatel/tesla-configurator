@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { TeslaService } from '../../services/tesla.service';
 import { CommonModule } from '@angular/common';
+import { TeslaOptions } from '../../models/tesla-options.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-step3',
@@ -10,8 +12,19 @@ import { CommonModule } from '@angular/common';
   styleUrl: './step3.component.scss'
 })
 export class Step3Component {
-constructor(public teslaService: TeslaService) { }
+  selectedOptions!: TeslaOptions;
+  selectedOptionsSubject?: TeslaOptions;
+  selectedOptionsSubscription?: Subscription;
 
-  ngOnInit(): void {
+  constructor(public teslaService: TeslaService) {
+    this.selectedOptionsSubscription = this.teslaService.selectedOptionsSubject.subscribe(selectedOptions => {
+      this.selectedOptions = selectedOptions;
+    });
+  }
+
+  ngOnInit(): void {}
+
+  ngOnDestroy(): void {
+    this.selectedOptionsSubscription?.unsubscribe();
   }
 }
